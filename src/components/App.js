@@ -9,7 +9,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      myAppointments: []
+      myAppointments: [],
+      lastIndex: 0
     };
   }
 
@@ -18,6 +19,8 @@ class App extends Component {
       .then(response => response.json())
       .then(result => {
         const apts = result.map(item => {
+          item.aptId = this.state.lastIndex;
+          this.setState({ lastIndex: this.state.lastIndex + 1 })
           return item;
         })
         this.setState({
@@ -27,6 +30,7 @@ class App extends Component {
   }
 
   render() {
+
     return (
      <main className="page bg-white" id="petratings">
        <div className="container">
@@ -35,7 +39,7 @@ class App extends Component {
              <div className="container">
                <AddAppointments />
                <SearchAppointments />
-               <ListAppointments />
+               <ListAppointments appointments={this.state.myAppointments}/>
              </div>
            </div>
          </div>
